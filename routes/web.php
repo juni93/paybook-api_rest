@@ -16,3 +16,27 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->group(['prefix' => 'api'], function () use ($router){
+    // User routes
+    $router->group(['prefix' => 'user'], function () use ($router){
+        $router->post('register', 'AuthController@register');
+        $router->post('login', 'AuthController@login');
+        $router->group(['middleware' => 'auth'] , function () use ($router){
+            $router->post('refresh', 'AuthController@refresh');
+            $router->post('logout', 'AuthController@logout');
+            $router->post('userinfo', 'AuthController@getAuthUser');
+        });
+    });
+
+    // Client routes
+    $router->group(['prefix' => 'clients'], function () use ($router){
+        $router->group(['middleware' => 'auth'] , function () use ($router){
+            $router->post('addClient', 'ClientController@store');
+            $router->get('allClients', 'ClientController@index');
+            $router->get('client/{id}', 'ClientController@show');
+            $router->put('client/{id}', 'ClientController@update');
+            $router->delete('client/{id}', 'ClientController@delete');
+        });
+    });
+});
