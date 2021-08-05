@@ -5,26 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Client extends Model
+class Accounting extends Model
 {
     use SoftDeletes;
 
-     /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'address', 'cap', 'city', 'country', 'email',
+        'description', 'amount', 'debit', 'credit', 'paid',
     ];
 
-    public function user()
+    public function client()
     {
-        return $this->belongsTo(User::class);
-    }
-
-    public function accounting()
-    {
-        return $this->hasMany(Accounting::class);
+        return $this->belongsTo(Client::class);
     }
 }

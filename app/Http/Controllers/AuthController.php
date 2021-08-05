@@ -18,6 +18,10 @@ class AuthController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|confirmed',
         ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors());
+        }
         try {
             $user = new User();
             $user->name = $request->input('name');

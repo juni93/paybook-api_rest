@@ -36,7 +36,13 @@ $router->group(['prefix' => 'api'], function () use ($router){
             $router->get('allClients', 'ClientController@index');
             $router->get('client/{id}', 'ClientController@show');
             $router->put('client/{id}', 'ClientController@update');
-            $router->delete('client/{id}', 'ClientController@delete');
+            $router->delete('client/{id}', 'ClientController@destroy');
+            // Accounting Routes
+            $router->post('client/{id}/addNote', 'AccountingController@store');
+            $router->get('client/{id}/allNotes', 'AccountingController@index');
+            $router->get('client/{id}/note/{noteId}', 'AccountingController@show');
+            $router->put('client/{id}/note/{noteId}', 'AccountingController@update');
+            $router->delete('client/{id}/note/{noteId}', 'AccountingController@destroy');
         });
     });
 });
