@@ -20,7 +20,12 @@ class AuthController extends Controller
         ]);
 
         if($validator->fails()){
-            return response()->json($validator->errors());
+            $errors = $validator->errors();
+            $this->responser(false, "Bad Request", null, $errors, 400);
+        }
+        $alreadyExists = User::where('email', $request->input('email'))->first();
+        if($alreadyExists){
+            return $this->responser(false, 'Error', null, 'User already Exists', 409);
         }
         try {
             $user = new User();
@@ -57,7 +62,10 @@ class AuthController extends Controller
         if(!$token = Auth::attempt($credentials)) {
             return $this->responser(false, 'Unauthorized', null, null, 401);
         }
-
+        /* $token = $this->createNewToken($token);
+        $response = new Response(['success' => true], 200);
+        $response->withCookie(Cookie::create('token', $token['token'], $token['expires_in']));
+        return $response; */
         return $this->responser(true, 'Accepted', $this->createNewToken($token), null, 200);
     }
 

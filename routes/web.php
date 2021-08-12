@@ -23,7 +23,7 @@ $router->group(['prefix' => 'api'], function () use ($router){
         $router->post('register', 'AuthController@register');
         $router->post('login', 'AuthController@login');
         $router->group(['middleware' => 'auth'] , function () use ($router){
-            $router->post('refresh', 'AuthController@refresh');
+            $router->get('refresh', 'AuthController@refresh');
             $router->post('logout', 'AuthController@logout');
             $router->post('userinfo', 'AuthController@getAuthUser');
         });
