@@ -71,9 +71,9 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $this->validate($request, [
+        /* $this->validate($request, [
             'token' => 'required'
-        ]);
+        ]); */
 
         try {
             Auth::invalidate($request->token);
@@ -93,7 +93,7 @@ class AuthController extends Controller
 
     public function getAuthUser(Request $request)
     {
-        $this->validate($request, ['token' => 'required']);
+        //$this->validate($request, ['token' => 'required']);
         $user = Auth::authenticate($request->token);
         $response = ['user' => $user];
         return $this->responser(true, "Accepted", $response, null, 200);
